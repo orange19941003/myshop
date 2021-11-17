@@ -36,7 +36,7 @@ class Admin extends Model
     /*
      *新增管理员
      */
-    public function add($name, $roles)
+    public function add($name, $pwd, $roles)
     {
         $this->name = $name;
         $this->add_time = date("Y-m-d H:i:s");
@@ -44,6 +44,7 @@ class Admin extends Model
         $this->locktime = date("Y-m-d H:i:s");
         $this->uid = session('uid', 1);
         $this->role_json = $roles;
+        $this->pwd = md5($pwd . config('app.pwd_salt'));
         $res = $this->save();
 
         return $res;
@@ -76,15 +77,22 @@ class Admin extends Model
     /*
      *修改管理员信息
      */
-    public function edit($id, $name, $roles)
+    public function edit($id, $name, $pwd, $roles)
     {
+        $data = [
+            'name' => $name,
+            'edit_time' => date("Y-m-d H:i:s"), 
+            'uid' => session('uid', 1),
+            'role_json' => $roles
+            ];
+
+        if ($pwd)
+        {
+            $data['pwd'] = md5($pwd . config('app.pwd_salt')); 
+
+        }
         $res = self::where('id', $id)
-            ->update([
-                'name' => $name, 
-                'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
-                'role_json' => $roles
-            ]);
+            ->update($data);
 
         return $res;
     }

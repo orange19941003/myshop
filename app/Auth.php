@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Admin;
+use App\Role;
 use Illuminate\Database\Eloquent\Model;
 
 class Auth extends Model
@@ -87,5 +89,28 @@ class Auth extends Model
             ->update($data);
 
         return $res;
+    }
+
+    /*
+     *获取用户的所有权限
+     */
+    public static function getAdminAuth($admin_id)
+    {
+        $role_json = Admin::where('status', 1)
+                    ->where('id', $admin_id)
+                    ->value('role_json');
+        $role_arr = json_decode($role_json, true);
+        $auth_json = Role::where('status', 1)
+            ->whereIn('id', $role_arr)
+            ->get('auth_json');
+        $auth_ids = []; 
+        foreach ($auth_json as $key => $value) {
+            $auth_ids = array_merge($auth_ids, json_decode($value->auth_json, true));
+        }
+        $auths = self::where('status', 1)
+            ->whereIn('id', $auth_ids)
+            ->get();
+
+        return $auths;
     }
 }

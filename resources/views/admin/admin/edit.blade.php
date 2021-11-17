@@ -10,6 +10,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="pwd" id="pwd" lay-verify="name" lay-verify="required" lay-reqtext="密码是必填项，不能为空？" autocomplete="off" placeholder="请输入" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
         <label class="layui-form-label">角色</label>
         <div class="layui-input-block">
             @foreach($roles as $role)
@@ -31,6 +37,7 @@
             $ = layui.jquery;
         $("#demo1").on('click', function(){
             var name = $("#name").val();
+            var pwd = $("#pwd").val();
             var _token = $("input[name='_token']").val();
             var roles = Array();
             $('input[name="role"]:checked').each(function(){    
@@ -41,7 +48,7 @@
                 type:"post",
                 url:"",
                 dataType:'json', 
-                data: {name:name,_token:_token,roles:json_roles},
+                data: {name:name,_token:_token,roles:json_roles,pwd:pwd},
                 success:function(res) {
                     if (res.code != 200)
                     {

@@ -10,17 +10,29 @@ use App\Http\Controllers\Controller;
 class Base extends Controller
 {
 	public $data;
+    protected $admin_id;
   	
   	public function __construct(Request $request)
   	{
-  		$aid = $request->input('aid', 0);
-  		$paid = $request->input('paid', 0);
-  		$auths = Auth::getAll();
-  		$this->data['aid'] = $aid;
-  		$this->data['paid'] = $paid;
-  		$this->data['TagOne'] = Auth::getAuthById($paid);
-  		$this->data['TagTwo'] = Auth::getAuthById($aid);
-  		$this->data['auths'] = $this->AuthOrder($auths);
+        $this->data = [];
+        $this->middleware(function ($request, $next) {
+        
+            $this->admin_id = $request->session()->get('admin_id', []);
+            if ($request->route()->uri != 'admin/login' && $request->getMethod() == 'GET' && $this->admin_id)
+            {
+                $aid = $request->input('aid', 0);
+                $paid = $request->input('paid', 0);
+                $auths = Auth::getAdminAuth($this->admin_id);
+                $this->data['aid'] = $aid;
+                $this->data['paid'] = $paid;
+                $this->data['TagOne'] = Auth::getAuthById($paid);
+                $this->data['TagTwo'] = Auth::getAuthById($aid);
+                $this->data['auths'] = $this->AuthOrder($auths);
+            }
+
+            return $next($request);
+        });
+        
   	}
 
   	/*

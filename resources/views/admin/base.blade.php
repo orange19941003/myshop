@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>商城后台</title>
-  <link rel="stylesheet" href="{{ asset('static/css/layui.css') }}">
-  <script src="{{asset('static/laydate/laydate.js')}}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>商城后台</title>
+    <link rel="stylesheet" href="{{ asset('static/css/layui.css') }}">
+    <script src="{{asset('static/laydate/laydate.js')}}"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
-    <div class="layui-logo">商城后台</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="">广告管理</a></li>
-    </ul>
-    <ul class="layui-nav layui-layout-right">
-      <li class="layui-nav-item">
-        <a href="javascript:;">
-          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-          admin
-        </a>
-        <dl class="layui-nav-child">
-          <dd><a href="">后台用户</a></dd>
-          <dd><a href="" >首页</a></dd>
-        </dl>
-      </li>
-      <li class="layui-nav-item"><a href="">退了</a></li>
-    </ul>
-  </div>
+    <div class="layui-header">
+        <div class="layui-logo">商城后台</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+          <li class="layui-nav-item"><a href="">广告管理</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+          <li class="layui-nav-item">
+            <a href="javascript:;">
+              <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+              admin
+            </a>
+            <dl class="layui-nav-child">
+              <dd><a href="">后台用户</a></dd>
+              <dd><a href="" >首页</a></dd>
+            </dl>
+          </li>
+          <li class="layui-nav-item"><a href="/admin/out">退了</a></li>
+        </ul>
+    </div>
   
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">

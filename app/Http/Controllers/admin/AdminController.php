@@ -51,6 +51,11 @@ class AdminController extends Base
         {
         	return $this->error('用户名不能为空');
         }
+        $pwd = input('pwd');
+        if (!preg_match('/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}/', $pwd) && $pwd != '')
+        {
+            return $this->error('密码必须同时含有数字、大小写字母，且长度要在8-16位之间');
+        }
         $roles = input('roles', '');
         $fuc_role = function ($roles) {
             if (json_decode($roles, true))
@@ -67,7 +72,7 @@ class AdminController extends Base
         {
             return $this->error("用户名重复");
         }
-        $res = $adminModel->add($name, $fuc_role($roles));
+        $res = $adminModel->add($name, $pwd, $fuc_role($roles));
         if (!$res)
         {
         	return $this->error("新增失败");
@@ -101,6 +106,11 @@ class AdminController extends Base
         {
         	return $this->error('用户名不能为空');
         }
+        $pwd = input('pwd', '');
+        if (!preg_match('/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}/', $pwd) && $pwd != '')
+        {
+            return $this->error('密码必须同时含有数字、大小写字母，且长度要在8-16位之间');
+        }
         $roles = input('roles', '');
         $fuc_role = function ($roles) {
             if (json_decode($roles, true))
@@ -113,11 +123,11 @@ class AdminController extends Base
             }
         };
         $adminModel = new Admin;
-        if ($adminModel->where('name', $name)->where('status', 1)->exists())
+        if ($adminModel->where('name', $name)->where('id', '!=', $id)->where('status', 1)->exists())
         {
             return $this->error("用户名重复");
         }
-        $res = $adminModel->edit($id, $name, $fuc_role($roles));
+        $res = $adminModel->edit($id, $name, $pwd, $fuc_role($roles));
         if (!$res)
         {
         	return $this->error("修改失败");
