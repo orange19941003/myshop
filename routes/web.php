@@ -48,6 +48,27 @@ Route::group(['namespace'=>'admin', 'prefix'=>'admin', 'middleware'=>'checkLogin
 		Route::get('edit/{id}', 'RoleController@edit');
 		Route::post('edit/{id}', 'RoleController@editPost');
 	});
+	//商品分类管理
+	Route::prefix('cate')->group(function() {
+		Route::get('index', 'CateController@index');
+		Route::get('list', 'CateController@list');
+		Route::get('add', 'CateController@add');
+		Route::post('add', 'CateController@addPost');
+		Route::get('del/{id}', 'CateController@del');
+		Route::get('edit/{id}', 'CateController@edit');
+		Route::post('edit/{id}', 'CateController@editPost');
+	});
+	//商品分类管理
+	Route::prefix('product')->group(function() {
+		Route::get('index', 'ProductController@index');
+		Route::get('list', 'ProductController@list');
+		Route::get('add', 'ProductController@add');
+		Route::post('add', 'ProductController@addPost');
+		Route::get('del/{id}', 'ProductController@del');
+		Route::get('edit/{id}', 'ProductController@edit');
+		Route::post('edit/{id}', 'ProductController@editPost');
+		Route::get('changeStatus/{id}', 'ProductController@changeStatus');
+	});
 
 	Route::get('login', 'LoginController@get');
 	Route::post('login', 'LoginController@post');

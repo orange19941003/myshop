@@ -97,8 +97,8 @@ class Auth extends Model
     public static function getAdminAuth($admin_id)
     {
         $role_json = Admin::where('status', 1)
-                    ->where('id', $admin_id)
-                    ->value('role_json');
+            ->where('id', $admin_id)
+            ->value('role_json');
         $role_arr = json_decode($role_json, true);
         $auth_json = Role::where('status', 1)
             ->whereIn('id', $role_arr)

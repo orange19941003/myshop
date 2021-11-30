@@ -33,9 +33,9 @@
         <div class="layui-input-block">
             <select name="pid" lay-filter="pid" id="pid">
                 <option value="">请选择</option>
-                @foreach($auths[1] as $vo)
+                @foreach($all_auths[1] as $vo)
                 <option value="{{$vo->id}}" class="p1">{{$vo->name}}</option>
-                    @foreach($auths[2] as $voo)
+                    @foreach($all_auths[2] as $voo)
                         @if($voo->pid == $vo->id)
                         <option value="{{$voo->id}}" class="p2">&nbsp&nbsp&nbsp&nbsp————{{$voo->name}}</option>
                         @endif

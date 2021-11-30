@@ -37,6 +37,8 @@ class AuthController extends Base
 
     public function add()
     {
+        $this->data['all_auths'] = $this->AuthOrder(Auth::getAll());
+
     	return view('admin/auth/add', $this->data);
     }
 
@@ -80,6 +82,7 @@ class AuthController extends Base
         	return $this->error("无效的id");
         }
         $this->data['auth'] = $auth;
+        $this->data['all_auths'] = $this->AuthOrder(Auth::getAll());
 
         return view('admin/auth/edit', $this->data);
     }

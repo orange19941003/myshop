@@ -51,7 +51,7 @@ class LoginController extends Base
 		}
     	$id = $o_admin->id;
     	//redis锁单点登录,300秒
-    	if (Redis::set("admin_lock_{$id}", '', "nx", "ex", 300))
+    	if (Redis::set("admin_lock_{$id}", '', "nx", "ex", 3000))
     	{
 
     		session(['admin_id' => $o_admin->id, 'error_pwd' => 0]);

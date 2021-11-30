@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Admin extends Model
+class Sku extends Model
 {
     /**
      * 指示是否自动维护时间戳
@@ -18,12 +18,7 @@ class Admin extends Model
         return self::where('status', 1)->get();
     }
 
-    public static function getAdminById($id)
-    {
-        return self::find($id);
-    }
-
-    public function getAdminList($limit, $name)
+    public function getSkuList($limit, $name)
     {
         $s_name_eq = $name != '' ? 'like' : '!='; 
         $data = self::where('status', 1)
@@ -66,12 +61,12 @@ class Admin extends Model
     }    
 
     //根据id获取管理员信息
-    public function getAdminInfo($id)
+    public function getSkuInfo($id)
     {
-        $Admin = self::where('status', 1)
+        $Sku = self::where('status', 1)
             ->find($id);
 
-        return $Admin;
+        return $Sku;
     }
 
     /*

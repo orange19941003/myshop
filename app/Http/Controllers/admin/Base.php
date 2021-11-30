@@ -16,7 +16,6 @@ class Base extends Controller
   	{
         $this->data = [];
         $this->middleware(function ($request, $next) {
-        
             $this->admin_id = $request->session()->get('admin_id', []);
             if ($request->route()->uri != 'admin/login' && $request->getMethod() == 'GET' && $this->admin_id)
             {
@@ -39,7 +38,7 @@ class Base extends Controller
   	 *权限分类
   	 *
   	 */
-  	private function AuthOrder($auth)
+  	protected function AuthOrder($auth)
   	{
   		$auths = [];
   		foreach ($auth as $key => $value) {
@@ -72,15 +71,15 @@ class Base extends Controller
             $treeAuth['title'] = $value->name;
             $treeAuth['id'] = $value->id;
             foreach ($auths[2] as $key1 => $val) {
-                $treeAuthTwo = [];
                 if ($val->pid == $value->id)
                 {
+                    $treeAuthTwo = [];
                     $treeAuthTwo['id'] = $val->id;
                     $treeAuthTwo['title'] = $val->name;
                     $treeAuthTwo['checked'] = in_array($val->id, $self_auths) ? true : false;
                     $treeAuthTwo['spread'] = true;
+                    $treeAuth['children'][] = $treeAuthTwo;
                 }
-                $treeAuth['children'][] = $treeAuthTwo;
             }
             $treeAuth['spread'] = true;
             $treeAuths[] = $treeAuth; 

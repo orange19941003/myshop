@@ -2,19 +2,18 @@
 /*
  *后台用户管理
  */
+
 namespace App\Http\Controllers\admin;
 
-use App\Auth;
-use App\Role;
+use App\Cate;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\admin\Base;
 
-class RoleController extends Base
+class CateController extends Base
 {
     public function index()
     {
-    	return view('admin/role/index', $this->data);
+    	return view('admin/cate/index', $this->data);
     }
 
     public function list()
@@ -22,8 +21,8 @@ class RoleController extends Base
     	$page = input('page');
     	$limit = input('limit');
     	$name = input('name', '');
-    	$roleModel = new role; 
-    	$data = $roleModel->getRoleList($limit, $name);
+    	$cateModel = new Cate; 
+    	$data = $cateModel->getCateList($limit, $name);
     	$data = $data->toArray();
     	$count = $data['total'] ? $data['total'] : 0;
     	$data = $data['data'] ? $data['data'] : [];
@@ -39,10 +38,7 @@ class RoleController extends Base
     public function add()
     {
 
-        $treeAuths = $this->getAuthTree($this->AuthOrder(Auth::getAll()));
-        $this->data['treeAuths'] = json_encode($treeAuths);
-
-    	return view('admin/role/add', $this->data);
+    	return view('admin/cate/add', $this->data);
     }
 
     public function addPost()
@@ -50,12 +46,19 @@ class RoleController extends Base
     	$name = input('name', '');
         if (empty($name))
         {
-        	return $this->error('角色名不能为空');
+        	return $this->error('分类名不能为空');
         }
-        $id = input('id', '');
-        $id = json_encode(explode(',', $id));
-        $roleModel = new Role;
-        $res = $roleModel->add($name, $id);
+        $weight = input('weight', 100);
+        if ($weight < 0 || $weight >= 10000)
+        {
+            return $this->error('权重值错误');
+        }
+        $cateModel = new Cate;
+        if ($cateModel->where('name', $name)->where('status', 1)->exists())
+        {
+            return $this->error("分类名重复");
+        }
+        $res = $cateModel->add($name, $weight);
         if (!$res)
         {
         	return $this->error("新增失败");
@@ -66,31 +69,35 @@ class RoleController extends Base
 
     public function edit($id)
     {
-    	$roleModel = new Role;
-        $role = $roleModel->getRoleInfo($id);
-        if (!$role)
+    	$cateModel = new Cate;
+        $cate = $cateModel->getCateInfo($id);
+        if (!$cate)
         {
         	return $this->error("无效的id");
         }
-        $this->data['role'] = $role;
-        $treeAuths = $this->getAuthTree($this->AuthOrder(Auth::getAll()), $id);
-        $this->data['treeAuths'] = json_encode($treeAuths);
+        $this->data['cate'] = $cate;
 
-        return view('admin/role/edit', $this->data);
+        return view('admin/cate/edit', $this->data);
     }
 
     public function editPost($id)
     {
     	$name = input('name', '');
-        $auth_json = json_encode(explode(',', input('ids', '')));
         if (empty($name))
         {
-        	return $this->error('用户名不能为空');
+        	return $this->error('分类名不能为空');
         }
-        $roleModel = new Role;
-        // DB::enableQueryLog();
-        $res = $roleModel->edit($id, $name, $auth_json);
-        // dd(DB::getQueryLog());
+        $weight = input('weight', 100);
+        if ($weight < 0 || $weight >= 10000)
+        {
+            return $this->error('权重值错误');
+        }
+        $cateModel = new Cate;
+        if ($cateModel->where('name', $name)->where('id', '!=', $id)->where('status', 1)->exists())
+        {
+            return $this->error("分类名重复");
+        }
+        $res = $cateModel->edit($id, $name, $weight);
         if (!$res)
         {
         	return $this->error("修改失败");
@@ -102,8 +109,8 @@ class RoleController extends Base
     public function del($ids)
     {
     	$ids = explode('|', $ids);
-    	$roleModel = new Role;
-        $res = $roleModel->del($ids);
+    	$cateModel = new Cate;
+        $res = $cateModel->del($ids);
         if (!$res)
         {
         	return $this->error("删除失败");
