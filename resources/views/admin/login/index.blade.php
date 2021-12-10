@@ -2,10 +2,6 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    {{--百度平台--}}
-    <meta name="baidu-site-verification" content="9jxVRatXIs" />
-    <meta name="baidu_union_verify" content="285b65cf325abe072bde0437c133e008">
-    <meta name="360-site-verification" content="6f7a678e74c316eb393d9fd80d103ca2" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="baidu-site-verification" content="">
@@ -44,23 +40,23 @@
     <div class="tophead">
         <h1>
         <div class="logo">
-            <a href="/" title="臭大佬">
+            <a href="/" title="恭喜发财">
                 <img src="/images/config/avatar.jpg"
-                     style="width: 40px;height: 40px; border-radius: 20px;margin-right: 10px;" alt="臭大佬"
-                     title="臭大佬">
+                     style="width: 40px;height: 40px; border-radius: 20px;margin-right: 10px;" alt="恭喜发财"
+                     title="恭喜发财">
             </a>
-           <a href="/" title="臭大佬">橙子商城</a>
+           <a href="/" title="恭喜发财">橙子商城</a>
         </div>
         </h1>
         <div id="mnav">
             <h2><span class="navicon"></span></h2>
             <ul>
-                <li><a href="/" title="臭大佬">首页</a></li>
+                <li><a href="/" title="恭喜发财">首页</a></li>
             </ul>
         </div>
         <nav class="topnav" id="topnav">
             <ul>
-                <li><a href="/" title="臭大佬" class="pc_home" @if(request()->path() === '/') id="topnav_current" @endif >首页</a></li>
+                <li><a href="/" title="恭喜发财" class="pc_home" @if(request()->path() === '/') id="topnav_current" @endif >首页</a></li>
             </ul>
         </nav>
     </div>

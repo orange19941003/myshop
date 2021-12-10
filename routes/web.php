@@ -58,7 +58,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'admin', 'middleware'=>'checkLogin
 		Route::get('edit/{id}', 'CateController@edit');
 		Route::post('edit/{id}', 'CateController@editPost');
 	});
-	//商品分类管理
+	//商品管理
 	Route::prefix('product')->group(function() {
 		Route::get('index', 'ProductController@index');
 		Route::get('list', 'ProductController@list');
@@ -69,7 +69,17 @@ Route::group(['namespace'=>'admin', 'prefix'=>'admin', 'middleware'=>'checkLogin
 		Route::post('edit/{id}', 'ProductController@editPost');
 		Route::get('changeStatus/{id}', 'ProductController@changeStatus');
 	});
-
+	//商品管理
+	Route::prefix('sku')->group(function() {
+		Route::get('index', 'SkuController@index');
+		Route::get('list', 'SkuController@list');
+		Route::get('add', 'SkuController@add');
+		Route::post('add', 'SkuController@addPost');
+		Route::get('del/{id}', 'SkuController@del');
+		Route::get('edit/{id}', 'SkuController@edit');
+		Route::post('edit/{id}', 'SkuController@editPost');
+		Route::get('changeStatus/{id}', 'SkuController@changeStatus');
+	});
 	Route::get('login', 'LoginController@get');
 	Route::post('login', 'LoginController@post');
 	Route::get('out', 'LoginController@out');

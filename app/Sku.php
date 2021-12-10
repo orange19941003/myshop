@@ -15,38 +15,48 @@ class Sku extends Model
 
     public static function getAll()
     {
-        return self::where('status', 1)->get();
+        return self::where('status', '!=', 0)->get();
     }
 
-    public function getSkuList($limit, $name)
+    public function getSkuList($limit, $name, $product_id)
     {
-        $s_name_eq = $name != '' ? 'like' : '!='; 
-        $data = self::where('status', 1)
-            ->where('name', $s_name_eq, "%" . $name . "%")
+        $s_name_eq = $name != '' ? 'like' : '!=';
+        $s_product_id_eq = $product_id ? '=' : '!='; 
+        $data = self::from('skus as a')
+            ->leftJoin('products as b', 'a.product_id', '=', 'b.id')
+            ->leftJoin('admins as c', 'a.uid', '=', 'c.id')
+            ->where('a.name', $s_name_eq, "%" . $name . "%")
+            ->where('a.product_id', $s_product_id_eq, $product_id)
+            ->where('a.status', '!=', 0)
+            ->select('a.*', 'b.name as product_name', 'c.name as admin_name')
+            ->orderBy('a.weight', 'desc')
+            ->orderBy('a.add_time', 'desc')
             ->paginate($limit);
 
         return $data;
     }
 
     /*
-     *新增管理员
+     *新增Sku
      */
-    public function add($name, $pwd, $roles)
+    public function add($name, $product_id, $cost, $weight, $price, $num)
     {
         $this->name = $name;
+        $this->product_id = $product_id;
+        $this->cost = $cost;
+        $this->weight = $weight;
+        $this->price = $price;
+        $this->num = $num;
         $this->add_time = date("Y-m-d H:i:s");
         $this->edit_time = date("Y-m-d H:i:s");
-        $this->locktime = date("Y-m-d H:i:s");
         $this->uid = session('uid', 1);
-        $this->role_json = $roles;
-        $this->pwd = md5($pwd . config('app.pwd_salt'));
         $res = $this->save();
 
         return $res;
     }
 
     /*
-     *删除管理员
+     *删除Sku
      */
     public function del($id)
     {
@@ -54,38 +64,62 @@ class Sku extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
+                'uid' => session('uid', 0),
             ]);
 
         return $res;
     }    
 
-    //根据id获取管理员信息
+    /*
+     *sku上架下架
+     */
+    public function changeStatus($id)
+    {
+        $sku = self::where('status', '!=', 0)
+            ->find($id);
+        if (!$sku)
+        {
+            return false;
+        }
+        if ($sku->status == 2)
+        {
+            $sku->status = 1;
+        }
+        else {
+            $sku->status = 2;
+        }
+        $sku->edit_time = date("Y-m-d H:i:s");
+        $sku->uid = session('uid', 0);
+        $res = $sku->save();
+
+        return $res;
+    }
+
+    //根据id获取sku信息
     public function getSkuInfo($id)
     {
-        $Sku = self::where('status', 1)
+        $Admin = self::where('status', '!=', 0)
             ->find($id);
 
-        return $Sku;
+        return $Admin;
     }
 
     /*
-     *修改管理员信息
+     *修改sku信息
      */
-    public function edit($id, $name, $pwd, $roles)
+    public function edit($id, $name, $product_id, $cost, $weight, $price, $num)
     {
         $data = [
+            'weight' => $weight,
             'name' => $name,
             'edit_time' => date("Y-m-d H:i:s"), 
             'uid' => session('uid', 1),
-            'role_json' => $roles
+            'product_id' => $product_id,
+            'cost' => $cost,
+            'weight' => $weight,
+            'price' => $price,
+            'num' => $num
         ];
-
-        if ($pwd)
-        {
-            $data['pwd'] = md5($pwd . config('app.pwd_salt')); 
-
-        }
         $res = self::where('id', $id)
             ->update($data);
 

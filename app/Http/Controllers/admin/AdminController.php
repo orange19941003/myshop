@@ -8,6 +8,7 @@ namespace App\Http\Controllers\admin;
 use App\Role;
 use App\Admin;
 use Illuminate\Http\Request;
+use App\Http\Enums\admin\AdminEnum;
 use App\Http\Controllers\admin\Base;
 
 class AdminController extends Base
@@ -75,10 +76,10 @@ class AdminController extends Base
         $res = $adminModel->add($name, $pwd, $fuc_role($roles));
         if (!$res)
         {
-        	return $this->error("新增失败");
+        	return $this->error(AdminEnum::ADD_ERROR);
         }
 
-        return $this->success('新增成功');
+        return $this->success(AdminEnum::ADD_SUCCESS);
     }
 
     public function edit($id)
@@ -130,10 +131,10 @@ class AdminController extends Base
         $res = $adminModel->edit($id, $name, $pwd, $fuc_role($roles));
         if (!$res)
         {
-        	return $this->error("修改失败");
+            return $this->error(AdminEnum::EDIT_ERROR);
         }
 
-        return $this->success('修改成功');
+        return $this->success(AdminEnum::EDIT_SUCCESS);
     }
 
     public function del($ids)
@@ -143,9 +144,9 @@ class AdminController extends Base
         $res = $adminModel->del($ids);
         if (!$res)
         {
-        	return $this->error("删除失败");
+            return $this->error(AdminEnum::DELETE_ERROR);
         }
 
-        return $this->success('删除成功');	
+        return $this->success(AdminEnum::DELETE_SUCCESS);	
     }
 }

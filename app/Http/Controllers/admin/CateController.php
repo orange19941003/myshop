@@ -7,6 +7,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Cate;
 use Illuminate\Http\Request;
+use App\Http\Enums\admin\AdminEnum;
 use App\Http\Controllers\admin\Base;
 
 class CateController extends Base
@@ -61,10 +62,10 @@ class CateController extends Base
         $res = $cateModel->add($name, $weight);
         if (!$res)
         {
-        	return $this->error("新增失败");
+            return $this->error(AdminEnum::ADD_ERROR);
         }
 
-        return $this->success('新增成功');
+        return $this->success(AdminEnum::ADD_SUCCESS);
     }
 
     public function edit($id)
@@ -100,10 +101,10 @@ class CateController extends Base
         $res = $cateModel->edit($id, $name, $weight);
         if (!$res)
         {
-        	return $this->error("修改失败");
+            return $this->error(AdminEnum::EDIT_ERROR);
         }
 
-        return $this->success('修改成功');
+        return $this->success(AdminEnum::EDIT_SUCCESS);
     }
 
     public function del($ids)
@@ -113,9 +114,9 @@ class CateController extends Base
         $res = $cateModel->del($ids);
         if (!$res)
         {
-        	return $this->error("删除失败");
+            return $this->error(AdminEnum::DELETE_ERROR);
         }
 
-        return $this->success('删除成功');	
+        return $this->success(AdminEnum::DELETE_SUCCESS);	
     }
 }

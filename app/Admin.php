@@ -89,7 +89,6 @@ class Admin extends Model
         if ($pwd)
         {
             $data['pwd'] = md5($pwd . config('app.pwd_salt')); 
-
         }
         $res = self::where('id', $id)
             ->update($data);

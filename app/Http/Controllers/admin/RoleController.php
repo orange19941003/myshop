@@ -8,6 +8,7 @@ use App\Auth;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Enums\admin\AdminEnum;
 use App\Http\Controllers\admin\Base;
 
 class RoleController extends Base
@@ -58,10 +59,10 @@ class RoleController extends Base
         $res = $roleModel->add($name, $id);
         if (!$res)
         {
-        	return $this->error("新增失败");
+            return $this->error(AdminEnum::ADD_ERROR);
         }
 
-        return $this->success('新增成功');
+        return $this->success(AdminEnum::ADD_SUCCESS);
     }
 
     public function edit($id)
@@ -93,10 +94,10 @@ class RoleController extends Base
         // dd(DB::getQueryLog());
         if (!$res)
         {
-        	return $this->error("修改失败");
+            return $this->error(AdminEnum::EDIT_ERROR);
         }
 
-        return $this->success('修改成功');
+        return $this->success(AdminEnum::EDIT_SUCCESS);
     }
 
     public function del($ids)
@@ -106,9 +107,9 @@ class RoleController extends Base
         $res = $roleModel->del($ids);
         if (!$res)
         {
-        	return $this->error("删除失败");
+            return $this->error(AdminEnum::DELETE_ERROR);
         }
 
-        return $this->success('删除成功');	
+        return $this->success(AdminEnum::DELETE_SUCCESS);	
     }
 }

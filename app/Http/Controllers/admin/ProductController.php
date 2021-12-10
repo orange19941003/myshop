@@ -1,6 +1,6 @@
 <?php
 /*
- *后台用户管理
+ *商品管理
  */
 
 namespace App\Http\Controllers\admin;
@@ -8,6 +8,7 @@ namespace App\Http\Controllers\admin;
 use App\Cate;
 use App\Product;
 use Illuminate\Http\Request;
+use App\Http\Enums\admin\AdminEnum;
 use App\Http\Controllers\admin\Base;
 
 class ProductController extends Base
@@ -66,23 +67,23 @@ class ProductController extends Base
         {
             return $this->error('权重值错误');
         }
-        $ProductModel = new Product;
-        if ($ProductModel->where('name', $name)->where('status', 1)->exists())
-        {
-            return $this->error("商品名重复");
-        }
         $is_hot = input('is_hot', 0);
         if (!in_array($is_hot, [0,1]))
         {
             return $this->error('推荐参数错误');
         }
+        $ProductModel = new Product;
+        if ($ProductModel->where('name', $name)->where('status', 1)->exists())
+        {
+            return $this->error("商品名重复");
+        }
         $res = $ProductModel->add($name, $cate_id, $is_hot, $weight);
         if (!$res)
         {
-        	return $this->error("新增失败");
+            return $this->error(AdminEnum::ADD_ERROR);
         }
 
-        return $this->success('新增成功');
+        return $this->success(AdminEnum::ADD_SUCCESS);
     }
 
     public function edit($id)
@@ -117,23 +118,23 @@ class ProductController extends Base
         {
             return $this->error('权重值错误');
         }
-        $ProductModel = new Product;
-        if ($ProductModel->where('name', $name)->where('id', '!=', $id)->where('status', 1)->exists())
-        {
-            return $this->error("商品名重复");
-        }
         $is_hot = input('is_hot', 0);
         if (!in_array($is_hot, [0,1]))
         {
             return $this->error('推荐参数错误');
         }
+        $ProductModel = new Product;
+        if ($ProductModel->where('name', $name)->where('id', '!=', $id)->where('status', 1)->exists())
+        {
+            return $this->error("商品名重复");
+        }
         $res = $ProductModel->edit($id, $name, $cate_id, $is_hot, $weight);
         if (!$res)
         {
-        	return $this->error("修改失败");
+            return $this->error(AdminEnum::EDIT_ERROR);
         }
 
-        return $this->success('修改成功');
+        return $this->success(AdminEnum::EDIT_SUCCESS);
     }
 
     public function del($ids)
@@ -143,10 +144,10 @@ class ProductController extends Base
         $res = $ProductModel->del($ids);
         if (!$res)
         {
-        	return $this->error("删除失败");
+            return $this->error(AdminEnum::DELETE_ERROR);
         }
 
-        return $this->success('删除成功');	
+        return $this->success(AdminEnum::DELETE_SUCCESS);	
     }
 
     public function changeStatus($id)

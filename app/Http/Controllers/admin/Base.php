@@ -90,7 +90,7 @@ class Base extends Controller
   	/*
   	 *统一失败函数
   	 */
-  	protected function error(string $msg)
+  	protected function error(string $msg) : array
   	{
   		$arr = [];
   		$arr['code'] = 401;
@@ -102,7 +102,7 @@ class Base extends Controller
   	/*
   	 *统一成功函数
   	 */
-  	protected function success(string $msg)
+  	protected function success(string $msg) : array
   	{
   		$arr = [];
   		$arr['code'] = 200;

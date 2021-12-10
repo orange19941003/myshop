@@ -33,6 +33,7 @@ class Product extends Model
             ->where('a.name', $s_name_eq, "%" . $name . "%")
             ->select('a.*', 'b.name as cate_name', 'c.name as admin_name')
             ->orderBy('a.weight', 'desc')
+            ->orderBy('a.add_time', 'desc')
             ->paginate($limit);
 
         return $data;
@@ -97,7 +98,8 @@ class Product extends Model
         else {
             $product->status = 2;
         }
-
+        $sku->edit_time = date("Y-m-d H:i:s");
+        $sku->uid = session('uid', 0);
         $res = $product->save();
 
         return $res;
