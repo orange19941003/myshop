@@ -26,7 +26,7 @@
               <dd><a href="" >首页</a></dd>
             </dl>
           </li>
-          <li class="layui-nav-item"><a href="/admin/out">退了</a></li>
+          <li class="layui-nav-item"><a href="/admin/out">撤退</a></li>
         </ul>
     </div>
   
