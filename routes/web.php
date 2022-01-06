@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index');
+Route::post('upload/uploadImg', 'UploadController@uploadImg');
 
 //admin模块
 
@@ -69,7 +70,7 @@ Route::group(['namespace'=>'admin', 'prefix'=>'admin', 'middleware'=>'checkLogin
 		Route::post('edit/{id}', 'ProductController@editPost');
 		Route::get('changeStatus/{id}', 'ProductController@changeStatus');
 	});
-	//商品管理
+	//商品sku管理
 	Route::prefix('sku')->group(function() {
 		Route::get('index', 'SkuController@index');
 		Route::get('list', 'SkuController@list');
@@ -79,6 +80,16 @@ Route::group(['namespace'=>'admin', 'prefix'=>'admin', 'middleware'=>'checkLogin
 		Route::get('edit/{id}', 'SkuController@edit');
 		Route::post('edit/{id}', 'SkuController@editPost');
 		Route::get('changeStatus/{id}', 'SkuController@changeStatus');
+	});
+	//商品图片管理
+	Route::prefix('productImg')->group(function() {
+		Route::get('index', 'ProductImgController@index');
+		Route::get('list', 'ProductImgController@list');
+		Route::get('add/{product_id}', 'ProductImgController@add');
+		Route::post('add/{product_id}', 'ProductImgController@addPost');
+		Route::get('del/{id}', 'ProductImgController@del');
+		Route::get('edit/{id}', 'ProductImgController@edit');
+		Route::post('edit/{id}', 'ProductImgController@editPost');
 	});
 	Route::get('login', 'LoginController@get');
 	Route::post('login', 'LoginController@post');

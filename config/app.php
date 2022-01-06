@@ -3,6 +3,8 @@
 return [
     //密码盐
     'pwd_salt' => env('PWD_SALT', ''),
+    //静态资源版本号
+    'version' => env("STATIC_VERSION", 1.0),
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -53,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://www.myshop.com/'),
 
     'asset_url' => env('ASSET_URL', null),
 

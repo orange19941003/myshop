@@ -4,7 +4,7 @@
 		$get = $_GET;
 		$post = $_POST;
 		$input = array_merge($get, $post);
-		if ($key=='')
+		if ($key == '')
 		{
 			return $input;
 		}
@@ -37,5 +37,16 @@
 		}
 
 		return false;
+	}
+
+	//统一返回函数
+	function json_response(array $data, string $msg, int $code) : string
+	{
+		$response = [];
+		$response['code'] = $code;
+		$response['msg'] = $msg;
+		$response['data'] = $data;
+
+		return json_encode($response);
 	}		
 ?>

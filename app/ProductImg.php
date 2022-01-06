@@ -18,29 +18,37 @@ class ProductImg extends Model
         return self::where('status', 1)->get();
     }
 
-    public function getProductImgList($limit, $name)
+    public function getProductImgList($limit, $product_id)
     {
-        $s_name_eq = $name != '' ? 'like' : '!='; 
-        $data = self::where('status', 1)
-            ->where('name', $s_name_eq, "%" . $name . "%")
+        $s_product_id_eq = $product_id != 0 ? '=' : '!='; 
+        $data = self::from('product_imgs as a')
+            ->leftJoin('products as b', 'a.product_id', '=', 'b.id')
+            ->leftJoin('admins as c', 'a.uid', '=', 'c.id')
+            ->where('a.status', 1)
+            ->where('a.product_id', $s_product_id_eq, $product_id)
+            ->select('a.*', 'b.name as name', 'c.name as admin_name')
+            ->orderBy('a.weight', 'desc')
+            ->orderBy('a.add_time', 'desc')
             ->paginate($limit);
 
         return $data;
     }
 
     /*
-     *新增管理员
+     *新增图片
      */
-    public function add($name, $pwd, $roles)
+    public function add($product_id, $img_urls, $weight)
     {
-        $this->name = $name;
-        $this->add_time = date("Y-m-d H:i:s");
-        $this->edit_time = date("Y-m-d H:i:s");
-        $this->locktime = date("Y-m-d H:i:s");
-        $this->uid = session('uid', 1);
-        $this->role_json = $roles;
-        $this->pwd = md5($pwd . config('app.pwd_salt'));
-        $res = $this->save();
+        foreach ($img_urls as $key => $img_url) {
+            $ProductImg = new self;
+            $ProductImg->product_id = $product_id;
+            $ProductImg->add_time = date("Y-m-d H:i:s");
+            $ProductImg->edit_time = date("Y-m-d H:i:s");
+            $ProductImg->uid = session('admin_id', 1);
+            $ProductImg->img_url = $img_url;
+            $ProductImg->weight = $weight;
+            $res = $ProductImg->save();
+        }
 
         return $res;
     }
@@ -54,7 +62,7 @@ class ProductImg extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
+                'uid' => session('admin_id', 1),
             ]);
 
         return $res;
@@ -72,20 +80,13 @@ class ProductImg extends Model
     /*
      *修改管理员信息
      */
-    public function edit($id, $name, $pwd, $roles)
+    public function edit($id, $img_url, $weight)
     {
         $data = [
-            'name' => $name,
             'edit_time' => date("Y-m-d H:i:s"), 
-            'uid' => session('uid', 1),
-            'role_json' => $roles
+            'uid' => session('admin_id', 1),
+            'img_url' => $img_url
         ];
-
-        if ($pwd)
-        {
-            $data['pwd'] = md5($pwd . config('app.pwd_salt')); 
-
-        }
         $res = self::where('id', $id)
             ->update($data);
 

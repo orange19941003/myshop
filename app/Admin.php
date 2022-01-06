@@ -42,7 +42,7 @@ class Admin extends Model
         $this->add_time = date("Y-m-d H:i:s");
         $this->edit_time = date("Y-m-d H:i:s");
         $this->locktime = date("Y-m-d H:i:s");
-        $this->uid = session('uid', 1);
+        $this->uid = session('admin_id', 1);
         $this->role_json = $roles;
         $this->pwd = md5($pwd . config('app.pwd_salt'));
         $res = $this->save();
@@ -59,7 +59,7 @@ class Admin extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
+                'uid' => session('admin_id', 1),
             ]);
 
         return $res;
@@ -82,7 +82,7 @@ class Admin extends Model
         $data = [
             'name' => $name,
             'edit_time' => date("Y-m-d H:i:s"), 
-            'uid' => session('uid', 1),
+            'uid' => session('admin_id', 1),
             'role_json' => $roles
         ];
 

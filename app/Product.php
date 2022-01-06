@@ -48,7 +48,7 @@ class Product extends Model
         $this->weight = $weight;
         $this->add_time = date("Y-m-d H:i:s");
         $this->edit_time = date("Y-m-d H:i:s");
-        $this->uid = session('uid', 1);
+        $this->uid = session('admin_id', 1);
         $this->cate_id = $cate_id;
         $this->is_hot = $is_hot;
         $res = $this->save();
@@ -65,7 +65,7 @@ class Product extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
+                'uid' => session('admin_id', 1),
             ]);
 
         return $res;
@@ -99,7 +99,7 @@ class Product extends Model
             $product->status = 2;
         }
         $sku->edit_time = date("Y-m-d H:i:s");
-        $sku->uid = session('uid', 0);
+        $sku->uid = session('admin_id', 0);
         $res = $product->save();
 
         return $res;
@@ -123,7 +123,7 @@ class Product extends Model
             'weight' => $weight,
             'name' => $name,
             'edit_time' => date("Y-m-d H:i:s"), 
-            'uid' => session('uid', 1),
+            'uid' => session('admin_id', 1),
             'cate_id' => $cate_id,
             'is_hot' => $is_hot
         ];

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>橙子商城</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

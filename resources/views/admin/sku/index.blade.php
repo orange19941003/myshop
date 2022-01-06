@@ -109,7 +109,7 @@ layui.use('table', function(){
                         layer.msg(res.msg)
                     } else {
                         layer.msg(res.msg);
-                        render(name, is_hot, cate_id);
+                        render(name, product_id);
                     }
                 }
             })
@@ -135,7 +135,7 @@ layui.use('table', function(){
                   layer.msg(res.msg)
               } else {
                   layer.msg(res.msg);
-                  render(name, is_hot, cate_id);
+                  render(name, product_id);
               }
           }
         })
@@ -171,7 +171,7 @@ layui.use('table', function(){
                         layer.msg(res.msg)
                     } else {
                         layer.msg(res.msg);
-                        location.reload()
+                        render(name, product_id);
                     }
                 }
             })
