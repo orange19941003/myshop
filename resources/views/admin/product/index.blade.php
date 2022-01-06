@@ -40,6 +40,7 @@
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  <a class="layui-btn layui-btn-xs" lay-event="addImg">添加图片</a>
 </script>
 <script>
 layui.use('table', function(){
@@ -87,7 +88,7 @@ layui.use('table', function(){
             }
   	      	,{field: 'add_time', title: '创建时间', width:200}
   	      	,{field: 'edit_time', title: '修改时间', width:200}
-            ,{field: 'admin_name', title: '后台操作人', width:200}
+            ,{field: 'admin_name', title: '后台操作人', width:100}
   	      	,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
   	    ]]
   	});
@@ -154,6 +155,14 @@ layui.use('table', function(){
               }
           }
         })
+    }else if (obj.event === 'addImg') {
+        var id = obj.data.id;
+        var index = layer.open({
+        title:'新增',
+        area:["1500px", "800px"],
+        type: 2,
+        content:  '{{asset("admin/productImg/add")}}' + '/' + id,
+      });
     }
   });
 

@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>商城后台</title>
-    <link rel="stylesheet" href="{{ asset('static/css/layui.css') }}">
-    <script src="{{asset('static/laydate/laydate.js')}}"></script>
+    <link rel="stylesheet" href="{{ asset('static/css/layui.css') . '?version=' . config('app.version')}}">
+    <script src="{{asset('static/laydate/laydate.js') . '?version=' . config('app.version')}}"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -18,8 +18,8 @@
         <ul class="layui-nav layui-layout-right">
           <li class="layui-nav-item">
             <a href="javascript:;">
-              <img src="{{ asset('images/config/admin.gif') }}" class="layui-nav-img">
-              admin
+              <img src="{{ asset('images/config/admin.gif') . '?version=' . config('app.version') }}" class="layui-nav-img">
+              {{session('admin_name', 'admin')}}
             </a>
             <dl class="layui-nav-child">
               <dd><a href="">后台用户</a></dd>
@@ -64,7 +64,7 @@
   	</div>
 </div>
 <script src="{{asset('static/layui.js')}}"></script>
-<script type="text/javascript" src="{{asset('static/layui.all.js')}}"></script>
+<script type="text/javascript" src="{{asset('static/layui.all.js') . '?version=' . config('app.version')}}"></script>
 <script>
 //JavaScript代码区域
 layui.use('element', function(){

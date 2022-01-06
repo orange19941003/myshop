@@ -51,12 +51,12 @@ class LoginController extends Base
 
 			return $this->error(AdminEnum::LOGIN_PWD_FIVE_ERROR . $o_admin->locktime);
 		}
-    	$id = $o_admin->id;
+        $id = $o_admin->id;
     	//redis锁单点登录,3000秒
     	if (Redis::set("admin_lock_{$id}", '', "nx", "ex", 3000))
     	{
 
-    		session(['admin_id' => $o_admin->id, 'error_pwd' => 0]);
+    		session(['admin_id' => $id, 'error_pwd' => 0, 'admin_name' => $o_admin->name]);
     	}
     	else
     	{

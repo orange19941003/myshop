@@ -43,7 +43,7 @@ class Cate extends Model
         $this->weight = $weight;
         $this->add_time = date("Y-m-d H:i:s");
         $this->edit_time = date("Y-m-d H:i:s");
-        $this->uid = session('uid', 1);
+        $this->uid = session('admin_id', 1);
         $res = $this->save();
 
         return $res;
@@ -58,7 +58,7 @@ class Cate extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 1),
+                'uid' => session('admin_id', 1),
             ]);
 
         return $res;
@@ -82,7 +82,7 @@ class Cate extends Model
             'name' => $name,
             'weight' => $weight,
             'edit_time' => date("Y-m-d H:i:s"), 
-            'uid' => session('uid', 1),
+            'uid' => session('admin_id', 1),
         ];
         $res = self::where('id', $id)
             ->update($data);

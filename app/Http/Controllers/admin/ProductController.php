@@ -68,7 +68,7 @@ class ProductController extends Base
             return $this->error('权重值错误');
         }
         $is_hot = input('is_hot', 0);
-        if (!in_array($is_hot, [0,1]))
+        if (!in_array($is_hot, AdminEnum::IS_HOT))
         {
             return $this->error('推荐参数错误');
         }
@@ -119,7 +119,7 @@ class ProductController extends Base
             return $this->error('权重值错误');
         }
         $is_hot = input('is_hot', 0);
-        if (!in_array($is_hot, [0,1]))
+        if (!in_array($is_hot, AdminEnum::IS_HOT))
         {
             return $this->error('推荐参数错误');
         }

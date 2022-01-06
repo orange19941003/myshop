@@ -49,7 +49,7 @@ class Sku extends Model
         $this->num = $num;
         $this->add_time = date("Y-m-d H:i:s");
         $this->edit_time = date("Y-m-d H:i:s");
-        $this->uid = session('uid', 1);
+        $this->uid = session('admin_id', 1);
         $res = $this->save();
 
         return $res;
@@ -64,7 +64,7 @@ class Sku extends Model
             ->update([
                 'status' => 0, 
                 'edit_time' => date("Y-m-d H:i:s"), 
-                'uid' => session('uid', 0),
+                'uid' => session('admin_id', 0),
             ]);
 
         return $res;
@@ -89,7 +89,7 @@ class Sku extends Model
             $sku->status = 2;
         }
         $sku->edit_time = date("Y-m-d H:i:s");
-        $sku->uid = session('uid', 0);
+        $sku->uid = session('admin_id', 0);
         $res = $sku->save();
 
         return $res;
@@ -113,7 +113,7 @@ class Sku extends Model
             'weight' => $weight,
             'name' => $name,
             'edit_time' => date("Y-m-d H:i:s"), 
-            'uid' => session('uid', 1),
+            'uid' => session('admin_id', 1),
             'product_id' => $product_id,
             'cost' => $cost,
             'weight' => $weight,
