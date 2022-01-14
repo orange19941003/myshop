@@ -30,9 +30,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+        // //
+        // RateLimiter::for('code', function (Request $request) {
+        //     return Limit::perMinute(1)->response(function () {
+        //         return response('请求频繁', 5001);
+        //     });
+        // });
     }
 
     /**

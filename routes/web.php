@@ -12,7 +12,18 @@
 */
 
 Route::get('/', 'IndexController@index');
+Route::post('sendCode', 'IndexController@sendCode')->middleware(['throttle:10,60']);
+Route::get('register', 'RegisterController@get');
+Route::post('register', 'RegisterController@post')->middleware(['throttle:10,60']);
+Route::get('login', 'LoginController@get');
+Route::post('login', 'LoginController@post')->middleware(['throttle:10,60']);;
+Route::get('forgetPwd', 'ForgetPwdController@get');
+Route::post('forgetPwd', 'ForgetPwdController@post')->middleware(['throttle:10,60']);
 Route::post('upload/uploadImg', 'UploadController@uploadImg');
+
+Route::group(['middleware'=>'check.login.index'], function() {
+	Route::get('cart', 'CartController@index');
+});
 
 //admin模块
 

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Service\Base;
+use App\Http\Enums\IndexEnum;
 
 class Upload extends Base
 {
@@ -11,7 +12,6 @@ class Upload extends Base
 	//图片上传
 	function uploadImg($file) : array
 	{
-		$arr = [];
 		try
 		{
 			$folder_name = "uploads/images/" . date("Ym/d", time());
@@ -23,17 +23,15 @@ class Upload extends Base
 			// 值如：1_1493521050_7BVc9v9ujP.png
 			$filename = self::prefix . '_' . time() . '_' . rand(1000, 9999) . '.' . $extension;
 			$file->move($upload_path, $filename);
-			$arr['code'] = 2000;
-			$arr['msg'] = $folder_name . '/' . $filename;
-			
-			return $arr;
+			$src = $folder_name . '/' . $filename;
+
+			return $this->success($src);
 		} 
 		catch (Exception $e)
 		{
-			$arr['code'] = 5001;
-			$arr['msg'] = $e->getMessage();
+			$msg = $e->getMessage();
 
-			return 	$arr;	
+			return 	$this->error($msg);	
 		}
 	}
 }
